@@ -980,8 +980,8 @@ class MainWindow(QMainWindow):
         self._workers = []
 
         self.setWindowTitle("PENS Companion by 404Workshop")
-        self.resize(1260, 840)
-        self.setMinimumSize(1100, 740)
+        self.resize(1340, 880)
+        self.setMinimumSize(1150, 760)
         self.setStyleSheet(CLEAN_WHITE_QSS)
 
         # Set Icon
@@ -1247,6 +1247,7 @@ class MainWindow(QMainWindow):
         # Student Profile Card
         user_card = QFrame()
         user_card.setObjectName("userCard")
+        user_card.setMinimumWidth(520)
         u_lay = QVBoxLayout(user_card)
         u_lay.setSpacing(2)
         self.lbl_dash_user = QLabel("Mahasiswa PENS")
@@ -1292,7 +1293,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(self.tab_presets_ta, "Preset SPPA")
         self.tabs.addTab(self.tab_jadwal, "Jadwal & Presensi")
         self.tabs.addTab(self.tab_monitor, "Monitoring MIS")
-        self.tabs.addTab(self.tab_about, "Developer & Kredit")
+        self.tabs.addTab(self.tab_about, "Kredit & Info")
 
         self.setup_tab_tembak()
         self.setup_tab_presets()
@@ -1711,95 +1712,124 @@ class MainWindow(QMainWindow):
 
     # ---------------- TAB 4: DEVELOPER DAN KREDIT ----------------
     def setup_tab_about(self):
-        layout = QVBoxLayout(self.tab_about)
-        layout.setContentsMargins(24, 24, 24, 24)
-        layout.setAlignment(Qt.AlignCenter)
+        main_layout = QVBoxLayout(self.tab_about)
+        main_layout.setContentsMargins(16, 12, 16, 12)
+        main_layout.setAlignment(Qt.AlignCenter)
 
         box = QFrame()
         box.setObjectName("aboutCard")
-        box.setFixedWidth(660)
-        b_lay = QVBoxLayout(box)
-        b_lay.setSpacing(14)
+        box.setFixedWidth(860)
+        box.setStyleSheet("#aboutCard { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 22px; }")
 
-        # Logo in About
-        top_a = QHBoxLayout()
+        b_lay = QVBoxLayout(box)
+        b_lay.setSpacing(12)
+        b_lay.setContentsMargins(16, 14, 16, 14)
+
+        # Header Title row
+        h_top = QHBoxLayout()
         l_about = QLabel()
         logo_path = resource_path("logo_login.png")
         if os.path.exists(logo_path):
-            l_about.setPixmap(QPixmap(logo_path))
-        top_a.addWidget(l_about)
-        top_a.addStretch()
-        b_lay.addLayout(top_a)
+            l_about.setPixmap(QPixmap(logo_path).scaledToHeight(38, Qt.SmoothTransformation))
+        h_top.addWidget(l_about)
 
+        t_top_box = QVBoxLayout()
+        t_top_box.setSpacing(1)
         t_title = QLabel("PENS Companion by 404Workshop")
-        t_title.setStyleSheet("font-size: 22px; font-weight: 900; color: #0f172a;")
-        b_lay.addWidget(t_title)
+        t_title.setStyleSheet("font-size: 19px; font-weight: 900; color: #0f172a;")
+        t_sub = QLabel("MIS Portal Automation Suite // PENS Student Companion")
+        t_sub.setStyleSheet("font-size: 11px; color: #64748b; font-weight: 600;")
+        t_top_box.addWidget(t_title)
+        t_top_box.addWidget(t_sub)
+        h_top.addLayout(t_top_box)
+        h_top.addStretch()
 
-        t_desc = QLabel("Aplikasi pendamping dan otomatisasi terpadu mahasiswa Politeknik Elektronika Negeri Surabaya (PENS) untuk pengisian logbook Kerja Praktek (KP), Seminar/Progres Proyek Akhir (SPPA/PA), jadwal kuliah, presensi kehadiran, transkrip nilai, dan upload berkas lampiran langsung ke database Online MIS PENS.")
-        t_desc.setStyleSheet("font-size: 13px; color: #64748b; line-height: 1.5;")
-        t_desc.setWordWrap(True)
-        b_lay.addWidget(t_desc)
+        ver_badge = QLabel("v3.0.0 COMPANION")
+        ver_badge.setStyleSheet("color: #0284c7; font-size: 11px; font-weight: 800; background: #e0f2fe; border: 1px solid #bae6fd; padding: 4px 10px; border-radius: 8px;")
+        h_top.addWidget(ver_badge)
+        b_lay.addLayout(h_top)
 
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
-        sep.setStyleSheet("border-top: 1px solid #e2e8f0; margin: 4px 0;")
+        sep.setStyleSheet("border-top: 1px solid #e2e8f0; margin: 2px 0;")
         b_lay.addWidget(sep)
 
-        # Developer Info Box
+        # 2 Columns Body
+        h_body = QHBoxLayout()
+        h_body.setSpacing(18)
+
+        # LEFT COLUMN
+        l_col = QVBoxLayout()
+        l_col.setSpacing(10)
+
+        t_desc = QLabel(
+            "Aplikasi pendamping dan otomatisasi terpadu mahasiswa Politeknik Elektronika Negeri Surabaya (PENS) untuk pengisian logbook Kerja Praktek (KP), Seminar/Progres Proyek Akhir (SPPA/PA), jadwal kuliah, presensi kehadiran, transkrip nilai, dan upload berkas lampiran langsung ke server Online MIS PENS."
+        )
+        t_desc.setStyleSheet("font-size: 11px; color: #475569; line-height: 1.5;")
+        t_desc.setWordWrap(True)
+        l_col.addWidget(t_desc)
+
         dev_card = QFrame()
         dev_card.setObjectName("creditBox")
+        dev_card.setStyleSheet("background-color: #fff1f2; border: 1px solid #fecdd3; border-radius: 10px; padding: 10px 14px;")
         d_lay = QVBoxLayout(dev_card)
-        d_lay.setSpacing(4)
+        d_lay.setSpacing(3)
+        d_lay.setContentsMargins(12, 10, 12, 10)
 
         d1 = QLabel("DEVELOPER AND WORKSHOP")
-        d1.setStyleSheet("font-size: 11px; font-weight: 800; color: #be123c; letter-spacing: 0.5px;")
+        d1.setStyleSheet("font-size: 10px; font-weight: 800; color: #be123c; letter-spacing: 0.5px;")
         d_lay.addWidget(d1)
 
-        d2 = QLabel("Mohammad Putra Maulana Yufen (404Workshop)")
-        d2.setStyleSheet("font-size: 18px; font-weight: 900; color: #0f172a;")
+        d2 = QLabel("Mohammad Putra Maulana Yufen")
+        d2.setStyleSheet("font-size: 15px; font-weight: 900; color: #0f172a;")
         d_lay.addWidget(d2)
 
         d3 = QLabel("MEKATRONIKA 23 - Politeknik Elektronika Negeri Surabaya")
-        d3.setStyleSheet("font-size: 13px; color: #475569; font-weight: 600;")
+        d3.setStyleSheet("font-size: 11px; color: #475569; font-weight: 600;")
         d_lay.addWidget(d3)
 
-        d4 = QLabel("Instagram: @yufenxyz | GitHub: yufendev")
-        d4.setStyleSheet("font-size: 14px; font-weight: 800; color: #e11d48; margin-top: 4px;")
+        d4 = QLabel("Studio: 404Workshop | IG: @yufenxyz | GitHub: yufendev")
+        d4.setStyleSheet("font-size: 11px; font-weight: 800; color: #e11d48; margin-top: 2px;")
         d_lay.addWidget(d4)
+        l_col.addWidget(dev_card)
 
-        b_lay.addWidget(dev_card)
+        info_sec = QLabel("Keamanan: Kredensial akun CAS hanya disimpan lokal di laptop. Data dikirim langsung melalui koneksi terenkripsi HTTPS ke server online.mis.pens.ac.id tanpa perantara.")
+        info_sec.setStyleSheet("font-size: 10px; color: #64748b; line-height: 1.4;")
+        info_sec.setWordWrap(True)
+        l_col.addWidget(info_sec)
+        l_col.addStretch()
 
-        # Update Info Box (v3.0.0)
+        h_body.addLayout(l_col, stretch=1)
+
+        # RIGHT COLUMN: UPDATE BOX
         upd_card = QFrame()
-        upd_card.setStyleSheet("background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;")
+        upd_card.setStyleSheet("background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px;")
         u_box = QVBoxLayout(upd_card)
-        u_box.setSpacing(4)
+        u_box.setSpacing(6)
+        u_box.setContentsMargins(14, 12, 14, 12)
 
-        u_title = QLabel("INFO UPDATE // v3.0.0 (COMPANION RELEASE)")
-        u_title.setStyleSheet("font-size: 11px; font-weight: 800; color: #0284c7; letter-spacing: 0.5px;")
+        u_title = QLabel("FITUR TERBARU // v3.0.0 COMPANION RELEASE")
+        u_title.setStyleSheet("font-size: 10px; font-weight: 800; color: #0284c7; letter-spacing: 0.5px;")
         u_box.addWidget(u_title)
 
         u_list = QLabel(
             "• Rebranding resmi: PENS Companion by 404Workshop (Clean Light SaaS)\n"
-            "• Logbook SPPA/PPA/PA: Tembak single & batch hari kerja, kalkulasi minggu otomatis\n"
+            "• Logbook SPPA/PPA/PA: Tembak single & batch hari kerja, minggu otomatis\n"
             "• Preset 10 Slot SPPA: Robotika/Mekatronika, Software/IoT, Umum Teknik\n"
-            "• Modul Akademik: Auto-scrape Transkrip (IPK, SKS, Dosen Wali), Jadwal & Presensi (%)\n"
-            "• Direct File Uploader: Unggah PDF Laporan & Foto Dokumentasi JPG ke MIS PENS\n"
-            "• Multi-Path Config Persistence: Simpan akun & preset permanen (AppData & portable EXE)\n"
-            "• Full Client-Side Security: Kredensial lokal, HTTPS langsung ke server PENS, bebas telemetry"
+            "• Modul Akademik: Auto-scrape Transkrip (IPK, SKS, Dosen Wali)\n"
+            "• Jadwal & Presensi: Timetable mingguan & rekap absensi status UAS\n"
+            "• Direct Attachment: Unggah PDF Laporan & Foto JPG ke MIS PENS\n"
+            "• Multi-Path Config: Simpan akun & preset permanen (AppData & portable)\n"
+            "• Client-Side Security: Kredensial lokal, HTTPS langsung, zero telemetry"
         )
-        u_list.setStyleSheet("font-size: 12px; color: #334155; line-height: 1.5;")
+        u_list.setStyleSheet("font-size: 11px; color: #334155; line-height: 1.5;")
         u_list.setWordWrap(True)
         u_box.addWidget(u_list)
 
-        b_lay.addWidget(upd_card)
+        h_body.addWidget(upd_card, stretch=1)
+        b_lay.addLayout(h_body)
 
-        info_sec = QLabel("Keamanan: Kredensial akun CAS hanya disimpan secara lokal di laptop pribadimu. Data dikirim langsung melalui koneksi terenkripsi HTTPS ke server online.mis.pens.ac.id.")
-        info_sec.setStyleSheet("font-size: 11px; color: #64748b; line-height: 1.4;")
-        info_sec.setWordWrap(True)
-        b_lay.addWidget(info_sec)
-
-        layout.addWidget(box)
+        main_layout.addWidget(box)
 
     # ---------------- TAB LOGBOOK SPPA ----------------
     def setup_tab_sppa(self):

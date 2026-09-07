@@ -13,6 +13,18 @@ Engineered by **Mohammad Putra Maulana Yufen** (MEKATRONIKA '23) &bull; **404Wor
 
 ---
 
+## Screenshots & UI Preview
+
+| Logbook KP (Internship Automation) | Logbook SPPA (Final Project Engine) |
+|:---:|:---:|
+| ![Logbook KP](preview_logbook_kp.png) | ![Logbook SPPA](preview_logbook_sppa.png) |
+
+| Academic Intelligence (Schedule & Attendance) | Credits & Companion Changelog |
+|:---:|:---:|
+| ![Academic Portal](preview_akademik.png) | ![Kredit & Info](preview_kredit.png) |
+
+---
+
 ## What's New in v3.0.0 (Companion Release)
 
 * **Dual Logbook Engine (KP + SPPA/PA):** Full support for both Internship (*Kerja Praktek*) and Final Project (*Seminar & Progres Proyek Akhir*) logbook entry with automated week calculations and `d-m-Y` form formatting.
