@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+venv/
+.venv/
+
+# PyInstaller & Build Artefacts
+build/
+dist/
+*.spec
+
+# Admin / Internal (Private - Never Push to Remote)
+*Admin*
+*admin*
+config_admin.json
+GOOGLE_APPS_SCRIPT_CODE.js
+
+# Local user configs
+config_logbook.json

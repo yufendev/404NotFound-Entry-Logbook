@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#e11d48</color>
+    <color name="primary_dark">#be123c</color>
+    <color name="accent">#f43f5e</color>
+    <color name="background">#f8fafc</color>
+    <color name="surface">#ffffff</color>
+    <color name="text_primary">#0f172a</color>
+    <color name="text_secondary">#64748b</color>
+    <color name="border">#e2e8f0</color>
+    <color name="pink_tint">#fff1f2</color>
+    <color name="pink_border">#fecdd3</color>
+    <color name="emerald">#059669</color>
+</resources>
