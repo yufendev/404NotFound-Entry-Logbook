@@ -19,3 +19,9 @@ GOOGLE_APPS_SCRIPT_CODE.js
 
 # Local user configs
 config_logbook.json
+crash_error.log
+
+# Scratch / dumps (Never push private HTML/student dumps)
+dump_ta_form.py
+ta_dump/
+
